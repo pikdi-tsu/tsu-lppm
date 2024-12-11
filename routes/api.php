@@ -112,6 +112,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // PUBLICATION
     Route::post('/publications/import', [PublicationController::class, 'import']);
+    Route::get('/publications/export', [PublicationController::class, 'export']);
     Route::post('/publications', [PublicationController::class, 'create']);
     Route::patch('/publications/{id}', [PublicationController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/publications', [PublicationController::class, 'getPublications']);

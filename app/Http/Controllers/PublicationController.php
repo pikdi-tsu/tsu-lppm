@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PublicationExport;
 use App\Imports\GoogleImport;
 use App\Imports\ScopusImport;
 use App\Models\Author;
@@ -111,6 +112,49 @@ class PublicationController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/publications/export",
+     *     tags={"Publications"},
+     *     summary="Export publication data to Excel",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Excel file download",
+     *         @OA\Header(
+     *             header="Content-Type",
+     *             description="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+     *         ),
+     *         @OA\Header(
+     *             header="Content-Disposition",
+     *             description="attachment; filename=lppm-publications.xlsx"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error exporting data.")
+     *         )
+     *     )
+     * )
+     */
+    public function export()
+    {
+        try {
+            return Excel::download(new PublicationExport, 'lppm-publications.xlsx');
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+    /**
      * @OA\Post(
      *     path="/api/publications",
      *     tags={"Publications"},
@@ -203,7 +247,7 @@ class PublicationController extends Controller
             'accreditation' => 'required_if:category,google|string|max:50',
             'identifier' => 'required_if:category,scopus|string|max:50',
             'quartile' => 'required_if:category,scopus|string|max:50',
-            'title' => 'required_if:category,google|string|max:255|unique:publications,title',
+            'title' => 'required_if:category,google|string|max:255',
             'journal' => 'required_if:category,google|string|max:255',
             'publication_name' => 'required_if:category,scopus|string|max:255',
             'year' => 'required|max:4',

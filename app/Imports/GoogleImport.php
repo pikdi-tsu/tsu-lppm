@@ -37,7 +37,7 @@ class GoogleImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'title' => 'required|unique:publications,title',
+            'title' => 'required',
         ];
     }
 }
