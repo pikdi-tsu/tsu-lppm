@@ -121,6 +121,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // HKI
     Route::post('/hki/import', [HKIController::class, 'import']);
+    Route::get('/hki/export', [HKIController::class, 'export']);
     Route::post('/hki', [HKIController::class, 'create']);
     Route::patch('/hki/{id}', [HKIController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/hki', [HKIController::class, 'getHKIData']);

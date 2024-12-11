@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\HKIExport;
 use App\Imports\HKIImport;
 use App\Models\HKI;
 use App\Models\StudyProgram;
@@ -96,6 +97,15 @@ class HKIController extends Controller
             Excel::import($import, $file);
 
             return $this->successResponse(null, 'Data imported successfully.', 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+    public function export()
+    {
+        try {
+            return Excel::download(new HKIExport, 'lppm-hki.xlsx');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 500);
         }
