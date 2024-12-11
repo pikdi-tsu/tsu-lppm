@@ -94,6 +94,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // RESEARCHES
     Route::post('/researches/import', [ResearchController::class, 'import']);
+    Route::get('/researches/export', [ResearchController::class, 'export']);
     Route::post('/researches', [ResearchController::class, 'create']);
     Route::patch('/researches/{id}', [ResearchController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/researches', [ResearchController::class, 'getResearches']);

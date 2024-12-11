@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ResearchExport;
 use App\Imports\ResearchImport;
 use App\Models\Author;
 use App\Models\Research;
@@ -128,6 +129,49 @@ class ResearchController extends Controller
             $failures = $e->failures();
 
             return $this->importValidationErrorsResponse($failures, 422);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/researches/export",
+     *     tags={"Researches"},
+     *     summary="Export research data to Excel",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Excel file download",
+     *         @OA\Header(
+     *             header="Content-Type",
+     *             description="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+     *         ),
+     *         @OA\Header(
+     *             header="Content-Disposition",
+     *             description="attachment; filename=lppm-researches.xlsx"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error exporting data.")
+     *         )
+     *     )
+     * )
+     */
+    public function export()
+    {
+        try {
+            return Excel::download(new ResearchExport, 'lppm-researches.xlsx');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 500);
         }
