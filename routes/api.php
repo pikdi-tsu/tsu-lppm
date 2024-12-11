@@ -130,6 +130,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // BOOK
     Route::post('/books/import', [BookController::class, 'import']);
+    Route::get('/books/export', [BookController::class, 'export']);
     Route::post('/books', [BookController::class, 'create']);
     Route::patch('/books/{id}', [BookController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/books', [BookController::class, 'getBooks']);

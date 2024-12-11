@@ -102,6 +102,40 @@ class HKIController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/hki/export",
+     *     tags={"HKI"},
+     *     summary="Export HKI data to Excel",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Excel file download",
+     *         @OA\Header(
+     *             header="Content-Type",
+     *             description="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+     *         ),
+     *         @OA\Header(
+     *             header="Content-Disposition",
+     *             description="attachment; filename=lppm-hki.xlsx"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error exporting data.")
+     *         )
+     *     )
+     * )
+     */
     public function export()
     {
         try {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BookExport;
 use App\Imports\BookImport;
 use App\Models\Author;
 use App\Models\Book;
@@ -95,6 +96,49 @@ class BookController extends Controller
             Excel::import($import, $request->file('file'));
 
             return $this->successResponse(null, 'Books data imported successfully.', 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/books/export",
+     *     tags={"Books"},
+     *     summary="Export book data to Excel",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Excel file download",
+     *         @OA\Header(
+     *             header="Content-Type",
+     *             description="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+     *         ),
+     *         @OA\Header(
+     *             header="Content-Disposition",
+     *             description="attachment; filename=lppm-books.xlsx"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error exporting data.")
+     *         )
+     *     )
+     * )
+     */
+    public function export()
+    {
+        try {
+            return Excel::download(new BookExport, 'lppm-books.xlsx');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 500);
         }
