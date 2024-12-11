@@ -103,6 +103,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // SERVICES
     Route::post('/services/import', [ServiceController::class, 'import']);
+    Route::get('/services/export', [ServiceController::class, 'export']);
     Route::post('/services', [ServiceController::class, 'create']);
     Route::patch('/services/{id}', [ServiceController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/services', [ServiceController::class, 'getServices']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ServiceExport;
 use App\Imports\ServiceImport;
 use App\Models\Author;
 use App\Models\Service;
@@ -128,6 +129,15 @@ class ServiceController extends Controller
             $failures = $e->failures();
 
             return $this->importValidationErrorsResponse($failures, 422);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
+
+    public function export()
+    {
+        try {
+            return Excel::download(new ServiceExport, 'lppm-service.xlsx');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 500);
         }
