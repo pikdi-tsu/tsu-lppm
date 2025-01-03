@@ -126,7 +126,7 @@ class PostController extends Controller
             'container' => $container_rule,
             'page_id' => 'required|exists:pages,id',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image',
+            'image' => 'nullable|mimes:jpg,jpeg,png',
             'file' => 'nullable|mimes:pdf',
             'link_url' => 'nullable|url',
             'status' => 'required'
@@ -321,8 +321,15 @@ class PostController extends Controller
             $query->where('author_id', $current_user->id);
         }
 
-        if (request()->has('search')) {
-            $search_term = request()->input('search');
+        if (request()->has('page_slug')) {
+            $page_slug = request()->input('page_slug');
+            $query->whereHas('page', function ($q) use ($page_slug) {
+                $q->where('slug', $page_slug);
+            });
+        }
+
+        if (request()->has('q')) {
+            $search_term = request()->input('q');
             $query->where('title', 'like', "%{$search_term}%");
         }
 
@@ -473,16 +480,44 @@ class PostController extends Controller
                 'page_title' => $post->page->title,
                 'image_url' => $post->image_url ? Storage::url($post->image_url) : null,
                 'file_url' => $post->file_url ? Storage::url($post->file_url) : null,
-                'link_url' => 'link_url',
+                'link_url' => $post->link_url,
             ];
         });
 
         return $this->successResponse($posts, 'Posts data retrieved successfully.', 200);
     }
 
+    public function getPostsByParentSlug($page_slug)
+    {
+        $page = Page::where('parent_id', null)->where('slug', $page_slug)->first();
+        if (!$page) {
+            return $this->errorResponse('Page slug not found.', 404);
+        }
+
+        $pages_id = Page::where('parent_id', $page->id)->pluck('id')->toArray();
+        array_push($pages_id, $page->id);
+
+        if (request()->has('filter')) {
+            $filter_id = request()->input('filter');
+            $pages_id = [$filter_id];
+        }
+
+        $query = Post::query();
+
+        if (request()->has('q')) {
+            $search_term = request()->input('q');
+            $query->where('title', 'like', "%$search_term%");
+        }
+
+        $posts = $query->whereIn('page_id', $pages_id)
+            ->with(['category:id,slug', 'page:id,title'])->paginate(10);
+
+        return $this->paginatedResponse($posts, 'Posts data retrieved successfully.', 200);
+    }
+
     /**
      * @OA\Get(
-     *     path="/api/post/{id}",
+     *     path="/api/posts/{id}",
      *     tags={"Posts"},
      *     summary="Get a post by ID",
      *     security={{"bearer_token":{}}},
@@ -555,7 +590,7 @@ class PostController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/post/{id}",
+     *     path="/api/posts/{id}",
      *     tags={"Posts"},
      *     summary="Update a post by ID",
      *     security={{"bearer_token":{}}},
@@ -736,7 +771,7 @@ class PostController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/post/{id}",
+     *     path="/api/posts/{id}",
      *     tags={"Posts"},
      *     summary="Delete a post by ID",
      *     security={{"bearer_token":{}}},

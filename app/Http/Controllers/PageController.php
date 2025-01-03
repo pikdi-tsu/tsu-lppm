@@ -467,6 +467,18 @@ class PageController extends Controller
         return $this->successResponse($pages, 'Pages menu retrieved successfully.', 200);
     }
 
+    public function getPagesMenuByParentSlug($page_slug)
+    {
+        $page = Page::where('parent_id', null)->where('slug', $page_slug)->first();
+        if (!$page) {
+            return $this->errorResponse('Parent page not found.', 404);
+        }
+
+        $pages = Page::where('slug', $page_slug)->orWhere('parent_id', $page->id)->get();
+
+        return $this->successResponse($pages, 'Pages data retrieved successfully.', 200);
+    }
+
     /**
      * @OA\Delete(
      *     path="/api/pages/{id}",

@@ -41,13 +41,7 @@ trait ApiResponse
         return response()->json([
             'success' => true,
             'message' => $message,
-            'data' => $collection->items(),
-            'meta' => [
-                'total' => $collection->total(),
-                'per_page' => $collection->perPage(),
-                'current_page' => $collection->currentPage(),
-                'last_page' => $collection->lastPage(),
-            ]
+            'data' => $collection
         ], $code);
     }
 

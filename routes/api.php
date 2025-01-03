@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/pages/{id}', [PageController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/pages/{id}', [PageController::class, 'getPageByID'])->where('id', '[0-9]+');
     Route::get('/pages', [PageController::class, 'getPages']);
+    Route::get('/pages/by-parent/{page_slug}', [PageController::class, 'getPagesMenuByParentSlug']);
     Route::delete('/pages/{id}', [PageController::class, 'delete'])->where('id', '[0-9]+');
 
     // CATEGORIES
@@ -74,6 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // POSTS
     Route::post('/posts', [PostController::class, 'create']);
     Route::get('/posts', [PostController::class, 'getPosts']);
+    Route::get('/posts/by-parent/{page_slug}', [PostController::class, 'getPostsByParentSlug']);
     Route::get('/posts/{id}', [PostController::class, 'getPostByID'])->where('id', '[0-9]+');
     Route::patch('/posts/{id}', [PostController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('/posts/{id}', [PostController::class, 'delete'])->where('id', '[0-9]+');
