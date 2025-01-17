@@ -113,10 +113,12 @@ class HKIController extends Controller
      *         description="Excel file download",
      *         @OA\Header(
      *             header="Content-Type",
+     *             @OA\Schema(type="string"),
      *             description="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
      *         ),
      *         @OA\Header(
      *             header="Content-Disposition",
+     *             @OA\Schema(type="string"),
      *             description="attachment; filename=lppm-hki.xlsx"
      *         )
      *     ),

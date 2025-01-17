@@ -462,7 +462,7 @@ class PageController extends Controller
      */
     public function getPagesMenu()
     {
-        $pages = Page::where('slug', '!=', 'beranda')->get();
+        $pages = Page::all();
 
         return $this->successResponse($pages, 'Pages menu retrieved successfully.', 200);
     }

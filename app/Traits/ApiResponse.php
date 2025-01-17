@@ -53,6 +53,14 @@ trait ApiResponse
         ], $code);
     }
 
+    protected function customValidationErrors(array $error, $code = 422)
+    {
+        return response()->json([
+            'success' => false,
+            'errors' => $error
+        ], $code);
+    }
+
     protected function importValidationErrorsResponse($failures, $code = 422)
     {
         return response()->json([

@@ -975,6 +975,71 @@
                 ]
             }
         },
+        "/api/books/export": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Export book data to Excel",
+                "operationId": "ffca513f2836c3ad1600f8612f00e2fe",
+                "responses": {
+                    "200": {
+                        "description": "Excel file download",
+                        "headers": {
+                            "Content-Type": {
+                                "description": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "attachment; filename=lppm-books.xlsx",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error exporting data."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/api/books": {
             "get": {
                 "tags": [
@@ -2697,6 +2762,71 @@
                 "security": [
                     {
                         "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hki/export": {
+            "get": {
+                "tags": [
+                    "HKI"
+                ],
+                "summary": "Export HKI data to Excel",
+                "operationId": "bf31d0bbb236bef4da0a11854ebdb6f6",
+                "responses": {
+                    "200": {
+                        "description": "Excel file download",
+                        "headers": {
+                            "Content-Type": {
+                                "description": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "attachment; filename=lppm-hki.xlsx",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error exporting data."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
                     }
                 ]
             }
@@ -5090,13 +5220,13 @@
                 }
             }
         },
-        "/api/post/{id}": {
+        "/api/posts/{id}": {
             "get": {
                 "tags": [
                     "Posts"
                 ],
                 "summary": "Get a post by ID",
-                "operationId": "3badb85ba8e3ce1c1d5b1daf007b7ffb",
+                "operationId": "575616ce88c4119bb7a6c703f83cb6ee",
                 "parameters": [
                     {
                         "name": "id",
@@ -5254,7 +5384,7 @@
                     "Posts"
                 ],
                 "summary": "Update a post by ID",
-                "operationId": "5dd9f9ecae375d4c615dfc3bac75b741",
+                "operationId": "87d121da9b0bc5667647993177fb8df8",
                 "parameters": [
                     {
                         "name": "id",
@@ -5442,7 +5572,7 @@
                     "Posts"
                 ],
                 "summary": "Delete a post by ID",
-                "operationId": "6b10f4215c6e3ed8be5c8f54ba69a2c3",
+                "operationId": "976001c8b1bbc00a6c0c6244820dd677",
                 "parameters": [
                     {
                         "name": "id",
@@ -5611,6 +5741,71 @@
                 "security": [
                     {
                         "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/publications/export": {
+            "get": {
+                "tags": [
+                    "Publications"
+                ],
+                "summary": "Export publication data to Excel",
+                "operationId": "2bd6518b3db8bba8e3f46fbfaf4616f8",
+                "responses": {
+                    "200": {
+                        "description": "Excel file download",
+                        "headers": {
+                            "Content-Type": {
+                                "description": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "attachment; filename=lppm-publications.xlsx",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error exporting data."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
                     }
                 ]
             }
@@ -6662,6 +6857,71 @@
                 "security": [
                     {
                         "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/researches/export": {
+            "get": {
+                "tags": [
+                    "Researches"
+                ],
+                "summary": "Export research data to Excel",
+                "operationId": "f6aa1f41156feb226e9eb6ff41f0cc27",
+                "responses": {
+                    "200": {
+                        "description": "Excel file download",
+                        "headers": {
+                            "Content-Type": {
+                                "description": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "attachment; filename=lppm-researches.xlsx",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error exporting data."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
                     }
                 ]
             }
@@ -8012,6 +8272,71 @@
                 "security": [
                     {
                         "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/services/export": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Export service data to Excel",
+                "operationId": "d4848ba0b49fc8cc123fd2af5529fa80",
+                "responses": {
+                    "200": {
+                        "description": "Excel file download",
+                        "headers": {
+                            "Content-Type": {
+                                "description": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "attachment; filename=lppm-services.xlsx",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error exporting data."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
                     }
                 ]
             }
@@ -10146,8 +10471,15 @@
                                     "password": {
                                         "type": "string"
                                     },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    },
                                     "role": {
                                         "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object",
@@ -10155,6 +10487,7 @@
                                     "name": "lppm sinus",
                                     "email": "lppm@sinus.ac.id",
                                     "password": "rahasia",
+                                    "password_confirmation": "rahasia",
                                     "role": "superadmin"
                                 }
                             }
@@ -10196,7 +10529,11 @@
                                                 },
                                                 "role": {
                                                     "type": "string",
-                                                    "example": "super admin"
+                                                    "example": "superadmin"
+                                                },
+                                                "image_path": {
+                                                    "type": "string",
+                                                    "example": "images/users/1234567890_lppm_sinus.jpg"
                                                 }
                                             },
                                             "type": "object"
@@ -10235,6 +10572,20 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The email has already been taken."
+                                                    }
+                                                },
+                                                "password_confirmation": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The password confirmation does not match."
+                                                    }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The image must be a file of type: jpg, jpeg, png."
                                                     }
                                                 }
                                             },
@@ -10627,8 +10978,9 @@
                                     "email": {
                                         "type": "string"
                                     },
-                                    "password": {
-                                        "type": "string"
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
                                     },
                                     "role": {
                                         "type": "string"
@@ -10638,7 +10990,6 @@
                                 "example": {
                                     "name": "lppm sinus",
                                     "email": "lppm@sinus.ac.id",
-                                    "password": "rahasia",
                                     "role": "superadmin"
                                 }
                             }
@@ -10658,7 +11009,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "User successfully updated."
+                                            "example": "User data successfully updated."
                                         },
                                         "data": {
                                             "properties": {
@@ -10674,9 +11025,13 @@
                                                     "type": "string",
                                                     "example": "lppm@sinus.ac.id"
                                                 },
+                                                "image_path": {
+                                                    "type": "string",
+                                                    "example": "images/users/1234567890_lppm_sinus.jpg"
+                                                },
                                                 "role": {
                                                     "type": "string",
-                                                    "example": "super admin"
+                                                    "example": "superadmin"
                                                 }
                                             },
                                             "type": "object"
@@ -10716,9 +11071,36 @@
                                                         "type": "string",
                                                         "example": "The email has already been taken."
                                                     }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The image must be a file of type: jpg, jpeg, png."
+                                                    }
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found."
                                         }
                                     },
                                     "type": "object"
@@ -10786,9 +11168,9 @@
                                                     "type": "string",
                                                     "example": "lppm@sinus.ac.id"
                                                 },
-                                                "password": {
+                                                "image_path": {
                                                     "type": "string",
-                                                    "example": "$2y$12$W9fjhpsicGLDD3kbA9XK6upPUdABEGE7ai0pBxhF3Treq5uoSq8oW"
+                                                    "example": "path/to/image.jpg"
                                                 },
                                                 "role": {
                                                     "type": "string",
@@ -10809,6 +11191,10 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthenticated."
@@ -10834,7 +11220,7 @@
                 "operationId": "099e87e9b2961758b568f556fd700059",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "name": {
@@ -10843,18 +11229,16 @@
                                     "email": {
                                         "type": "string"
                                     },
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "role": {
-                                        "type": "string"
+                                    "image": {
+                                        "description": "User profile image (jpg, jpeg, png)",
+                                        "type": "file",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object",
                                 "example": {
                                     "name": "lppm sinus",
                                     "email": "lppm@sinus.ac.id",
-                                    "password": "rahasia",
                                     "role": "superadmin"
                                 }
                             }
@@ -10874,7 +11258,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "User successfully updated."
+                                            "example": "User data successfully updated."
                                         },
                                         "data": {
                                             "properties": {
@@ -10890,9 +11274,9 @@
                                                     "type": "string",
                                                     "example": "lppm@sinus.ac.id"
                                                 },
-                                                "role": {
+                                                "image_path": {
                                                     "type": "string",
-                                                    "example": "super admin"
+                                                    "example": "path/to/image.jpg"
                                                 }
                                             },
                                             "type": "object"
@@ -10932,6 +11316,13 @@
                                                         "type": "string",
                                                         "example": "The email has already been taken."
                                                     }
+                                                },
+                                                "image": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The image must be a file of type: jpg, jpeg, png."
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -10944,6 +11335,271 @@
                     },
                     "401": {
                         "description": "Unauthenticated access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/current/password": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update current user's password",
+                "operationId": "7d296ebf5771e48d0879469335d1eebc",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "old_password": {
+                                        "description": "Current password",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "New password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirm new password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "old_password": "current123",
+                                    "password": "newpass123",
+                                    "password_confirmation": "newpass123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User password updated successfully."
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The old password does not match."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "old_password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The old password does not match."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}/password": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user password by ID",
+                "operationId": "8163762a898ebea422434a6045508bc0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "minimum": 6,
+                                        "example": "newpassword123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password Updated Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User password updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The password field is required."
+                                                    }
+                                                },
+                                                "password_confirmation": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The password confirmation does not match."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
                         "content": {
                             "application/json": {
                                 "schema": {

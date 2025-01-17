@@ -459,7 +459,7 @@ class AuthorController extends Controller
      *     @OA\Parameter(
      *         name="q",
      *         in="query",
-     *         description="Search author by name or nidn",
+     *         description="Search author by name, sinta_id, or nidn",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
@@ -479,20 +479,37 @@ class AuthorController extends Controller
      *                     @OA\Items(
      *                         type="object",
      *                         @OA\Property(property="id", type="integer", example=1),
-     *                         @OA\Property(property="name", type="string", example="Computer Science"),
+     *                         @OA\Property(property="sinta_id", type="string", example="5975479"),
+     *                         @OA\Property(property="nidn", type="string", example="0617057603"),
+     *                         @OA\Property(property="name", type="string", example="TEGUH SUSYANTO"),
+     *                         @OA\Property(property="affiliation", type="string", example="Sekolah Tinggi Manajemen Informatika dan Komputer Sinar Nusantara"),
+     *                         @OA\Property(property="study_program_id", type="integer", example=1),
+     *                         @OA\Property(property="last_education", type="string", example="S2"),
+     *                         @OA\Property(property="functional_position", type="string", example="Lektor"),
+     *                         @OA\Property(property="title_prefix", type="string", example=null),
+     *                         @OA\Property(property="title_suffix", type="string", example="S.Kom, M.Cs"),
+     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-29T06:00:16.000000Z"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-29T06:00:16.000000Z"),
      *                         @OA\Property(
-     *                             property="authors",
-     *                             type="array",
-     *                             @OA\Items(
-     *                                 type="object",
-     *                                 @OA\Property(property="id", type="integer", example=1),
-     *                                 @OA\Property(property="name", type="string", example="John Doe")
-     *                             )
+     *                             property="study_program",
+     *                             type="object",
+     *                             @OA\Property(property="id", type="integer", example=1),
+     *                             @OA\Property(property="name", type="string", example="S1 Sistem Informasi"),
+     *                             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-23T06:09:07.000000Z"),
+     *                             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-23T06:09:07.000000Z")
      *                         )
      *                     )
      *                 ),
-     *                 @OA\Property(property="total", type="integer", example=50),
-     *                 @OA\Property(property="per_page", type="integer", example=10)
+     *                 @OA\Property(property="first_page_url", type="string", example="http://localhost:8000/api/authors?page=1"),
+     *                 @OA\Property(property="from", type="integer", example=1),
+     *                 @OA\Property(property="last_page", type="integer", example=5),
+     *                 @OA\Property(property="last_page_url", type="string", example="http://localhost:8000/api/authors?page=5"),
+     *                 @OA\Property(property="next_page_url", type="string", example="http://localhost:8000/api/authors?page=2"),
+     *                 @OA\Property(property="path", type="string", example="http://localhost:8000/api/authors"),
+     *                 @OA\Property(property="per_page", type="integer", example=10),
+     *                 @OA\Property(property="prev_page_url", type="string", example=null),
+     *                 @OA\Property(property="to", type="integer", example=10),
+     *                 @OA\Property(property="total", type="integer", example=50)
      *             )
      *         )
      *     ),
@@ -517,12 +534,53 @@ class AuthorController extends Controller
     {
         $query = Author::query();
 
-        if (request()->has('search')) {
-            $search_term = request()->input('search');
+        if (request()->has('q')) {
+            $search_term = request()->input('q');
             $query->whereAny(['name', 'sinta_id', 'nidn'], '%' . $search_term . '%');
         }
 
         $authors = $query->with('studyProgram')->paginate(10);
+
+        return $this->successResponse($authors, 'Authors data retrieved successfully.', 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/authors/list",
+     *     tags={"Authors"},
+     *     summary="Get list of all authors",
+     *     security={{"bearer_token":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Authors data retrieved successfully.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Authors data retrieved successfully."),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="sinta_id", type="string", example="6198546"),
+     *                     @OA\Property(property="nidn", type="string", example="0123456789"),
+     *                     @OA\Property(property="name", type="string", example="John Doe")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated access",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     )
+     * )
+     */
+    public function getAuthorList()
+    {
+        $authors = Author::select(['id', 'sinta_id', 'nidn', 'name'])->get();
 
         return $this->successResponse($authors, 'Authors data retrieved successfully.', 200);
     }

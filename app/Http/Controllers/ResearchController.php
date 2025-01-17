@@ -145,10 +145,12 @@ class ResearchController extends Controller
      *         description="Excel file download",
      *         @OA\Header(
      *             header="Content-Type",
+     *             @OA\Schema(type="string"),
      *             description="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
      *         ),
      *         @OA\Header(
      *             header="Content-Disposition",
+     *             @OA\Schema(type="string"),
      *             description="attachment; filename=lppm-researches.xlsx"
      *         )
      *     ),
@@ -728,7 +730,7 @@ class ResearchController extends Controller
             return $this->errorResponse('Research not found.', 404);
         }
 
-        $research->dana_disetujui = $this->currencyFormat($research->dana_disetujui);
+        $research->dana_disetujui = (int) $research->dana_disetujui;
 
         return $this->successResponse($research, 'Research data retrieved successfully.', 200);
     }

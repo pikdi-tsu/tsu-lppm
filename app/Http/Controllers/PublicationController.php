@@ -44,6 +44,12 @@ class PublicationController extends Controller
      *                     description="Excel/CSV file containing publications data"
      *                 ),
      *                 @OA\Property(
+     *                     property="category",
+     *                     type="string",
+     *                     enum={"google", "scopus"},
+     *                     description="Import category type"
+     *                 ),
+     *                 @OA\Property(
      *                     property="reset_table",
      *                     type="boolean",
      *                     description="Whether to reset the tables before import",
@@ -57,7 +63,7 @@ class PublicationController extends Controller
      *         description="Publications imported successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="message", type="string", example="Publications data imported successfully."),
+     *             @OA\Property(property="message", type="string", example="Publication data imported successfully."),
      *         )
      *     ),
      *     @OA\Response(
@@ -74,6 +80,14 @@ class PublicationController extends Controller
      *         description="Unauthenticated",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Error message")
      *         )
      *     )
      * )
@@ -122,10 +136,12 @@ class PublicationController extends Controller
      *         description="Excel file download",
      *         @OA\Header(
      *             header="Content-Type",
+     *             @OA\Schema(type="string"),
      *             description="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
      *         ),
      *         @OA\Header(
      *             header="Content-Disposition",
+     *             @OA\Schema(type="string"),
      *             description="attachment; filename=lppm-publications.xlsx"
      *         )
      *     ),
@@ -247,7 +263,7 @@ class PublicationController extends Controller
             'accreditation' => 'required_if:category,google|string|max:50',
             'identifier' => 'required_if:category,scopus|string|max:50',
             'quartile' => 'required_if:category,scopus|string|max:50',
-            'title' => 'required_if:category,google|string|max:255',
+            'title' => 'required|string|max:255',
             'journal' => 'required_if:category,google|string|max:255',
             'publication_name' => 'required_if:category,scopus|string|max:255',
             'year' => 'required|max:4',
@@ -377,7 +393,7 @@ class PublicationController extends Controller
             'accreditation' => 'required_if:category,google|string|max:50',
             'identifier' => 'required_if:category,scopus|string|max:50',
             'quartile' => 'required_if:category,scopus|string|max:50',
-            'title' => 'required_if:category,google|string|max:255|unique:publications,title,' . $id,
+            'title' => 'required|string|max:255|unique:publications,title,' . $id,
             'journal' => 'required_if:category,google|string|max:255',
             'publication_name' => 'required_if:category,scopus|string|max:255',
             'year' => 'required|max:4',

@@ -52,10 +52,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'getUserList']);
     Route::get('/users/current', [UserController::class, 'getCurrentUser']);
     Route::patch('/users/current', [UserController::class, 'updateCurrentUser']);
+    Route::patch('/users/current/password', [UserController::class, 'updateCurrentUserPassword']);
     Route::patch('/users/{id}', [UserController::class, 'updateUserByID'])->where('id', '[0-9]+');
     Route::get('/users/{id}', [UserController::class, 'getUserByID'])->where('id', '[0-9]+');
     Route::delete('/users/{id}', [UserController::class, 'deleteUser'])->where('id', '[0-9]+');
     Route::post('/users/logout', [UserController::class, 'logout']);
+    Route::patch('/users/{id}/password', [UserController::class, 'updateUserPasswordByID'])->where('id', '[0-9]+');
 
     // PAGES
     Route::post('/pages', [PageController::class, 'create']);
@@ -86,6 +88,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/authors/{id}', [AuthorController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/authors/{id}', [AuthorController::class, 'getAuthorByID'])->where('id', '[0-9]+');
     Route::get('/authors', [AuthorController::class, 'getAuthors']);
+    Route::get('/authors/list', [AuthorController::class, 'getAuthorList']);
+    Route::delete('/users/{id}', [AuthorController::class, 'delete'])->where('id', '[0-9]+');
 
     // STUDY PROGRAMS
     Route::post('/study-programs', [StudyProgramController::class, 'create']);
@@ -119,7 +123,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/publications/{id}', [PublicationController::class, 'update'])->where('id', '[0-9]+');
     Route::get('/publications', [PublicationController::class, 'getPublications']);
     Route::get('/publications/{id}', [PublicationController::class, 'getPublicationByID'])->where('id', '[0-9]+');
-    Route::delete('/publication/{id}', [PublicationController::class, 'delete'])->where('id', '[0-9]+');
+    Route::delete('/publications/{id}', [PublicationController::class, 'delete'])->where('id', '[0-9]+');
 
     // HKI
     Route::post('/hki/import', [HKIController::class, 'import']);

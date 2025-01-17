@@ -729,14 +729,15 @@ class PostController extends Controller
             return $this->errorResponse('Link URL required for journal category.', 400);
         }
 
-        if ($category_slug == 'file' && !$request->file('file')) {
+
+        if ($category_slug == 'file' && !$request->file('file') && !$post->file_url) {
             return $this->errorResponse('File required for file category.', 400);
         }
 
         $image_path = $post->image_url;
         if ($request->hasFile('image')) {
-            if ($post->image_url) {
-                Storage::delete('public/' . $post->image_url);
+            if ($post->image_url && Storage::disk('public')->exists($post->image_url)) {
+                Storage::disk('public')->delete($post->image_url);
             }
 
             $image = $request->file('image');
@@ -748,6 +749,9 @@ class PostController extends Controller
 
         $file_path = $post->file_url;
         if ($request->hasFile('file')) {
+            if ($post->file_url && Storage::disk('public')->exists($post->file_url)) {
+                Storage::disk('public')->delete($post->file_url);
+            }
             $file = $request->file('file');
             $extension = $file->getClientOriginalExtension();
             $page_slug = Page::where('id', $request->page_id)->pluck('slug')->first();
