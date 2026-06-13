@@ -62,6 +62,11 @@ jobs:
             if [ -n "$DB_USERNAME" ]; then sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|" .env; fi
             if [ -n "$DB_PASSWORD" ]; then sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|" .env; fi
 
+            # Generate APP_KEY jika masih kosong
+            if grep -q "^APP_KEY=$" .env; then
+                php artisan key:generate --force
+            fi
+
             php artisan optimize:clear
             php artisan optimize
             php artisan view:cache

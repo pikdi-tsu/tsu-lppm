@@ -81,6 +81,11 @@ jobs:
             if [ -n "$DB_USERNAME" ]; then sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|" .env; fi
             if [ -n "$DB_PASSWORD" ]; then sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|" .env; fi
 
+            # Generate APP_KEY jika masih kosong
+            if grep -q "^APP_KEY=$" .env; then
+                php artisan key:generate --force
+            fi
+
             # 3. Membuat symlink storage/app/public ke public_html/storage jika belum ada
             ln -sfn $(pwd)/storage/app/public ../public_html/storage
 
