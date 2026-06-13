@@ -36,8 +36,8 @@ class HKIImport implements ToModel, WithHeadingRow
         ]);
     }
 
-    public function headingRow(): int
-    {
-        return 5;
-    }
+    // public function headingRow(): int
+    // {
+    //     return 5;
+    // }
 }

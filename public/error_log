@@ -1,0 +1,109 @@
+[18-Jan-2025 06:40:10 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:10 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:21 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:21 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:21 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:21 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:21 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:21 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Warning:  require(/home/lppm/public_html/api/../../api_master/vendor/autoload.php): Failed to open stream: No such file or directory in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 06:40:33 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/public_html/api/../../api_master/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/public_html/api/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/lppm/public_html/api/index.php on line 13
+[18-Jan-2025 10:54:44 UTC] PHP Warning:  require(/home/lppm/api_master/vendor/composer/../ezyang/htmlpurifier/library/HTMLPurifier.composer.php): Failed to open stream: No such file or directory in /home/lppm/api_master/vendor/composer/autoload_real.php on line 41
+[18-Jan-2025 10:54:44 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/api_master/vendor/composer/../ezyang/htmlpurifier/library/HTMLPurifier.composer.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/api_master/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/lppm/api_master/vendor/composer/autoload_real.php(45): {closure}()
+#1 /home/lppm/api_master/vendor/autoload.php(25): ComposerAutoloaderInit8afc860a6741063e0c207427d51d60af::getLoader()
+#2 /home/lppm/public_html/api/index.php(13): require('/home/lppm/api_...')
+#3 {main}
+  thrown in /home/lppm/api_master/vendor/composer/autoload_real.php on line 41
+[18-Jan-2025 10:54:45 UTC] PHP Warning:  require(/home/lppm/api_master/vendor/composer/../ezyang/htmlpurifier/library/HTMLPurifier.composer.php): Failed to open stream: No such file or directory in /home/lppm/api_master/vendor/composer/autoload_real.php on line 41
+[18-Jan-2025 10:54:45 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/api_master/vendor/composer/../ezyang/htmlpurifier/library/HTMLPurifier.composer.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/api_master/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/lppm/api_master/vendor/composer/autoload_real.php(45): {closure}()
+#1 /home/lppm/api_master/vendor/autoload.php(25): ComposerAutoloaderInit8afc860a6741063e0c207427d51d60af::getLoader()
+#2 /home/lppm/public_html/api/index.php(13): require('/home/lppm/api_...')
+#3 {main}
+  thrown in /home/lppm/api_master/vendor/composer/autoload_real.php on line 41
+[18-Jan-2025 10:54:45 UTC] PHP Warning:  require(/home/lppm/api_master/vendor/composer/../ralouphie/getallheaders/src/getallheaders.php): Failed to open stream: No such file or directory in /home/lppm/api_master/vendor/composer/autoload_real.php on line 41
+[18-Jan-2025 10:54:45 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/lppm/api_master/vendor/composer/../ralouphie/getallheaders/src/getallheaders.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/lppm/api_master/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/lppm/api_master/vendor/composer/autoload_real.php(45): {closure}()
+#1 /home/lppm/api_master/vendor/autoload.php(25): ComposerAutoloaderInit8afc860a6741063e0c207427d51d60af::getLoader()
+#2 /home/lppm/public_html/api/index.php(13): require('/home/lppm/api_...')
+#3 {main}
+  thrown in /home/lppm/api_master/vendor/composer/autoload_real.php on line 41

@@ -23,7 +23,7 @@ class PublicationController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:superadmin|admin')->except(['getDataGroupedByAccreditationAndQuartile', 'getChartsData']);
+        $this->middleware('role:superadmin|admin')->except(['getDataGroupedByAccreditationAndQuartile', 'getChartsData', 'getYearsOfPublicationsData']);
     }
 
     /**
@@ -801,7 +801,7 @@ class PublicationController extends Controller
         // Apply year filter if provided
         if (request()->has('year')) {
             $year = request()->input('year');
-            $publications_by_program->where('publications.thn_pelaksanaan_kegiatan', $year);
+            $publications_by_program->where('publications.year', $year);
         }
 
         // Complete the query
@@ -831,6 +831,30 @@ class PublicationController extends Controller
         ];
 
         return $this->successResponse($chart_data, 'Chart data retrieved successfully.', 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/publications/years",
+     *     summary="Get years of publications data",
+     *     description="Retrieves a list of years in which publications were conducted",
+     *     tags={"Publications"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Years data retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={"2020", "2021", "2022", "2023"}),
+     *             @OA\Property(property="message", type="string", example="Years data retrieved successfully.")
+     *         )
+     *     )
+     * )
+     */
+    public function getYearsOfPublicationsData()
+    {
+        $years = Publication::groupBy('year')->pluck('year');
+
+        return $this->successResponse($years, 'Years data retrieved successfully.', 200);
     }
 
     /**

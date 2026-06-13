@@ -16,7 +16,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:superadmin'])->except(['getCategoriesList']);
+        $this->middleware(['role:superadmin|admin'])->except(['getCategoriesList']);
     }
 
     /**

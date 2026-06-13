@@ -1,0 +1,50 @@
+name: Deploy to VPS (Development)
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  web-deploy:
+    name: Fast Deploy to VPS via Rsync
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Sync files to VPS (Rsync over SSH)
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.DEV_SSH_HOST }}
+          REMOTE_USER: ${{ secrets.DEV_SSH_USERNAME }}
+          TARGET: /var/www/html/tsu_lppm/
+          EXCLUDE: "/.git/, /.github/, /node_modules/, *.sqlite, /vendor/, /.vscode/, /.idea/, /storage/logs/"
+
+      - name: Execute Post-Deploy Scripts via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEV_SSH_HOST }}
+          username: ${{ secrets.DEV_SSH_USERNAME }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -e
+            cd /var/www/html/tsu_lppm
+
+            mkdir -p storage/framework/{sessions,views,cache}
+            mkdir -p bootstrap/cache
+
+            wget -O composer.phar https://getcomposer.org/download/latest-stable/composer.phar
+            php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
+
+            sudo chown -R www-data:www-data storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+
+            php artisan optimize:clear
+            php artisan optimize
+            php artisan view:cache
+            php artisan storage:link
+            php artisan migrate --force

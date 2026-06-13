@@ -16,7 +16,7 @@ class PageController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:superadmin'])->except(['getPagesMenu']);
+        $this->middleware(['role:superadmin'])->except(['getPagesMenu', 'getPagesMenuByParentSlug']);
     }
 
     /**

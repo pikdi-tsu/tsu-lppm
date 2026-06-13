@@ -833,7 +833,7 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->image_path = $image_path;
+        $user->image_path = $image_path ?? $user->image_path;
         $user->save();
 
         $role = $user->getRoleNames()->first();

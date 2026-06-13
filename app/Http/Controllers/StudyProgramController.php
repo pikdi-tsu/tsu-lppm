@@ -15,7 +15,7 @@ class StudyProgramController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:superadmin']);
+        $this->middleware(['role:superadmin|admin'])->except(['getStudyProgramList']);
     }
 
     /**
@@ -196,7 +196,7 @@ class StudyProgramController extends Controller
      *     tags={"Study Programs"},
      *     security={{"bearer_token":{}}},
      *     @OA\Parameter(
-     *         name="search",
+     *         name="q",
      *         in="query",
      *         description="Search study programs by name",
      *         required=false,
@@ -256,14 +256,21 @@ class StudyProgramController extends Controller
     {
         $query = StudyProgram::query();
 
-        if (request()->has('search')) {
-            $search_term = request()->input('search');
+        if (request()->has('q')) {
+            $search_term = request()->input('q');
             $query = $query->where('name', 'like', '%' . $search_term . '%');
         }
 
         $study_programs = $query->with('authors')->paginate(10);
 
         return $this->successResponse($study_programs, 'Study programs data retrieved successfully.', 200);
+    }
+
+    public function getStudyProgramList()
+    {
+        $data = StudyProgram::select(['id', 'name'])->get();
+
+        return $this->successResponse($data, 'Study program list retrieved successfully.', 200);
     }
 
     /**

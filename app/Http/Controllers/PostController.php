@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:superadmin|admin'])->except(['getPostsByPageSlug']);
+        $this->middleware(['role:superadmin|admin'])->except(['getPostsByPageSlug', 'getPostsByParentSlug']);
     }
 
     /**
@@ -129,7 +129,7 @@ class PostController extends Controller
             'image' => 'nullable|mimes:jpg,jpeg,png',
             'file' => 'nullable|mimes:pdf',
             'link_url' => 'nullable|url',
-            'status' => 'required'
+            'status' => 'required|in:published,draft'
         ]);
 
         if ($validator->fails()) {
@@ -353,6 +353,7 @@ class PostController extends Controller
                 'created_at',
                 'updated_at'
             ])
+            ->latest()
             ->paginate(10);
 
         // Transform the data
@@ -478,8 +479,8 @@ class PostController extends Controller
                 'category_id' => $post->category_id,
                 'category_slug' => $post->category->slug,
                 'page_title' => $post->page->title,
-                'image_url' => $post->image_url ? Storage::url($post->image_url) : null,
-                'file_url' => $post->file_url ? Storage::url($post->file_url) : null,
+                'image_url' => $post->image_url ?? '',
+                'file_url' => $post->file_url ?? '',
                 'link_url' => $post->link_url,
             ];
         });
@@ -698,9 +699,9 @@ class PostController extends Controller
             return $this->errorResponse('Post not found.', 404);
         }
 
-        if (!auth()->user()->hasRole('superadmin') && auth()->user()->id !== $post->author_id) {
-            return $this->errorResponse('You are not authorized to update this post.', 401);
-        }
+        // if (!auth()->user()->hasRole('superadmin') && auth()->user()->id !== $post->author_id) {
+        //     return $this->errorResponse('You are not authorized to update this post.', 401);
+        // }
 
         $category_slug = Category::where('id', $request->category_id)->pluck('slug')->first();
 
@@ -714,18 +715,18 @@ class PostController extends Controller
             'image' => 'nullable|image',
             'file' => 'nullable|mimes:pdf',
             'link_url' => 'nullable|url',
-            'status' => 'required'
+            'status' => 'required|in:published,draft'
         ]);
 
         if ($validator->fails()) {
             return $this->formatValidationErrors($validator);
         }
 
-        if ($category_slug == 'media' && !$request->file('image')) {
+        if ($category_slug == 'media' && !$request->file('image') && $post->image_url == null) {
             return $this->errorResponse('Image required for media category.', 400);
         }
 
-        if ($category_slug == 'journal' && !$request->link_url) {
+        if ($category_slug == 'journal' && !$request->link_url && $post->file_url == null) {
             return $this->errorResponse('Link URL required for journal category.', 400);
         }
 
@@ -819,9 +820,9 @@ class PostController extends Controller
             return $this->errorResponse('Post not found.', 404);
         }
 
-        if (!auth()->user()->hasRole('superadmin') && auth()->user()->id !== $post->author_id) {
-            return $this->errorResponse('You are not authorized to delete this post.', 403);
-        }
+        // if (!auth()->user()->hasRole('superadmin') && auth()->user()->id !== $post->author_id) {
+        //     return $this->errorResponse('You are not authorized to delete this post.', 403);
+        // }
 
         if ($post->image_url) {
             Storage::disk('public')->delete($post->image_url);

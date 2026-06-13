@@ -30,10 +30,10 @@ class ScopusImport implements ToModel, WithHeadingRow, WithValidation
         ]);
     }
 
-    public function headingRow(): int
-    {
-        return 5;
-    }
+    // public function headingRow(): int
+    // {
+    //     return 5;
+    // }
 
     public function rules(): array
     {

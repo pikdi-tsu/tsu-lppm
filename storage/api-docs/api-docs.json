@@ -132,7 +132,7 @@
                     {
                         "name": "q",
                         "in": "query",
-                        "description": "Search author by name or nidn",
+                        "description": "Search author by name, sinta_id, or nidn",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -168,37 +168,118 @@
                                                                 "type": "integer",
                                                                 "example": 1
                                                             },
+                                                            "sinta_id": {
+                                                                "type": "string",
+                                                                "example": "5975479"
+                                                            },
+                                                            "nidn": {
+                                                                "type": "string",
+                                                                "example": "0617057603"
+                                                            },
                                                             "name": {
                                                                 "type": "string",
-                                                                "example": "Computer Science"
+                                                                "example": "TEGUH SUSYANTO"
                                                             },
-                                                            "authors": {
-                                                                "type": "array",
-                                                                "items": {
-                                                                    "properties": {
-                                                                        "id": {
-                                                                            "type": "integer",
-                                                                            "example": 1
-                                                                        },
-                                                                        "name": {
-                                                                            "type": "string",
-                                                                            "example": "John Doe"
-                                                                        }
+                                                            "affiliation": {
+                                                                "type": "string",
+                                                                "example": "Sekolah Tinggi Manajemen Informatika dan Komputer Sinar Nusantara"
+                                                            },
+                                                            "study_program_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "last_education": {
+                                                                "type": "string",
+                                                                "example": "S2"
+                                                            },
+                                                            "functional_position": {
+                                                                "type": "string",
+                                                                "example": "Lektor"
+                                                            },
+                                                            "title_prefix": {
+                                                                "type": "string",
+                                                                "example": null
+                                                            },
+                                                            "title_suffix": {
+                                                                "type": "string",
+                                                                "example": "S.Kom, M.Cs"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-10-29T06:00:16.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-10-29T06:00:16.000000Z"
+                                                            },
+                                                            "study_program": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
                                                                     },
-                                                                    "type": "object"
-                                                                }
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "S1 Sistem Informasi"
+                                                                    },
+                                                                    "created_at": {
+                                                                        "type": "string",
+                                                                        "format": "date-time",
+                                                                        "example": "2024-10-23T06:09:07.000000Z"
+                                                                    },
+                                                                    "updated_at": {
+                                                                        "type": "string",
+                                                                        "format": "date-time",
+                                                                        "example": "2024-10-23T06:09:07.000000Z"
+                                                                    }
+                                                                },
+                                                                "type": "object"
                                                             }
                                                         },
                                                         "type": "object"
                                                     }
                                                 },
-                                                "total": {
+                                                "first_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/authors?page=1"
+                                                },
+                                                "from": {
                                                     "type": "integer",
-                                                    "example": 50
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "last_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/authors?page=5"
+                                                },
+                                                "next_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/authors?page=2"
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/api/authors"
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
                                                     "example": 10
+                                                },
+                                                "prev_page_url": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 50
                                                 }
                                             },
                                             "type": "object"
@@ -848,6 +929,82 @@
                                                 }
                                             },
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/authors/list": {
+            "get": {
+                "tags": [
+                    "Authors"
+                ],
+                "summary": "Get list of all authors",
+                "operationId": "333baf5e412f83cad3b25b417834ba4e",
+                "responses": {
+                    "200": {
+                        "description": "Authors data retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Authors data retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "sinta_id": {
+                                                        "type": "string",
+                                                        "example": "6198546"
+                                                    },
+                                                    "nidn": {
+                                                        "type": "string",
+                                                        "example": "0123456789"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1954,6 +2111,50 @@
                 }
             }
         },
+        "/api/books/years": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get years of books data",
+                "description": "Retrieves a list of years in which books were conducted",
+                "operationId": "5d4e1289dd4d4ef6c918c1e7befe8ac3",
+                "responses": {
+                    "200": {
+                        "description": "Years data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "2020",
+                                                "2021",
+                                                "2022",
+                                                "2023"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Years data retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/categories": {
             "get": {
                 "tags": [
@@ -2668,6 +2869,75 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/dashboard/total-kinerja": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get total performance counts",
+                "description": "Returns total counts of researches, services, publications, HKI, and books",
+                "operationId": "getTotalKinerja",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Total kinerja retrieved successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "total_researches": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "total_services": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "total_publications": {
+                                                    "type": "integer",
+                                                    "example": 8
+                                                },
+                                                "total_hki": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "total_books": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 30
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/hki/import": {
@@ -3879,6 +4149,50 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hki/years": {
+            "get": {
+                "tags": [
+                    "HKI"
+                ],
+                "summary": "Get years of hki data",
+                "description": "Retrieves a list of years in which hki were conducted",
+                "operationId": "1c06f2fa3bd807746a048441d00ddbdd",
+                "responses": {
+                    "200": {
+                        "description": "Years data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "2020",
+                                                "2021",
+                                                "2022",
+                                                "2023"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Years data retrieved successfully."
                                         }
                                     },
                                     "type": "object"
@@ -5666,6 +5980,14 @@
                                         "description": "Excel/CSV file containing publications data",
                                         "type": "file"
                                     },
+                                    "category": {
+                                        "description": "Import category type",
+                                        "type": "string",
+                                        "enum": [
+                                            "google",
+                                            "scopus"
+                                        ]
+                                    },
                                     "reset_table": {
                                         "description": "Whether to reset the tables before import",
                                         "type": "boolean",
@@ -5690,7 +6012,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Publications data imported successfully."
+                                            "example": "Publication data imported successfully."
                                         }
                                     },
                                     "type": "object"
@@ -5730,6 +6052,26 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message"
                                         }
                                     },
                                     "type": "object"
@@ -6755,6 +7097,50 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/publications/years": {
+            "get": {
+                "tags": [
+                    "Publications"
+                ],
+                "summary": "Get years of publications data",
+                "description": "Retrieves a list of years in which publications were conducted",
+                "operationId": "4462506d26725bb0ad6f857a11808ab4",
+                "responses": {
+                    "200": {
+                        "description": "Years data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "2020",
+                                                "2021",
+                                                "2022",
+                                                "2023"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Years data retrieved successfully."
                                         }
                                     },
                                     "type": "object"
@@ -8180,6 +8566,50 @@
                 }
             }
         },
+        "/api/researches/years": {
+            "get": {
+                "tags": [
+                    "Researches"
+                ],
+                "summary": "Get years of researches data",
+                "description": "Retrieves a list of years in which researches were conducted",
+                "operationId": "1e4295c1791476ee83fb5d07f7a085e4",
+                "responses": {
+                    "200": {
+                        "description": "Years data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "2020",
+                                                "2021",
+                                                "2022",
+                                                "2023"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Years data retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/services/import": {
             "post": {
                 "tags": [
@@ -9591,6 +10021,537 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/services/years": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "Get years of services data",
+                "description": "Retrieves a list of years in which services were conducted",
+                "operationId": "54f880edd12acacb2676f3288b11a5b1",
+                "responses": {
+                    "200": {
+                        "description": "Years data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "2020",
+                                                "2021",
+                                                "2022",
+                                                "2023"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Years data retrieved successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/settings": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Get all settings with pagination",
+                "operationId": "c184d70065ab059a6bcb303937c1afbc",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Settings retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Settings data retrieved successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer"
+                                                            },
+                                                            "category": {
+                                                                "type": "string"
+                                                            },
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "description": {
+                                                                "type": "string"
+                                                            },
+                                                            "link_url": {
+                                                                "type": "string"
+                                                            },
+                                                            "image_path": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Create new setting",
+                "operationId": "83dcfad8b8b92272f65997e6b72d70cb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "logo",
+                                            "social_media",
+                                            "address",
+                                            "contact"
+                                        ]
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "link_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "maxLength": 255
+                                    },
+                                    "image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Setting created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Settings data created successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "category": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "link_url": {
+                                                    "type": "string"
+                                                },
+                                                "image_path": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/settings/{id}": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Get setting by ID",
+                "operationId": "568894fd9214b73df50a59c9ba530917",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Setting retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Setting data retrieved successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "category": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "link_url": {
+                                                    "type": "string"
+                                                },
+                                                "image_path": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Setting not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Delete setting",
+                "operationId": "cbfead7c15fe115385478c1611baa837",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Setting deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Setting data deleted successfully."
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Setting not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Update existing setting",
+                "operationId": "3d99a3aaf2f29b887ecc8d4ce200a779",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "category": {
+                                        "type": "string",
+                                        "enum": [
+                                            "logo",
+                                            "social_media",
+                                            "address",
+                                            "contact"
+                                        ]
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "link_url": {
+                                        "type": "string",
+                                        "format": "url",
+                                        "maxLength": 255
+                                    },
+                                    "image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Setting updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Setting data updated successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "category": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "description": {
+                                                    "type": "string"
+                                                },
+                                                "link_url": {
+                                                    "type": "string"
+                                                },
+                                                "image_path": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Setting not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/settings/by-category/{category}": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Get settings by category",
+                "operationId": "57edba0443c0d9355b718366fde73420",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "logo",
+                                "social_media",
+                                "address",
+                                "contact"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Settings retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Settings data retrieved successfully."
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "category": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "link_url": {
+                                                        "type": "string"
+                                                    },
+                                                    "image_path": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Settings not found"
                     }
                 }
             }
@@ -11673,6 +12634,10 @@
             "description": "Categories"
         },
         {
+            "name": "Dashboard",
+            "description": "Dashboard"
+        },
+        {
             "name": "HKI",
             "description": "HKI"
         },
@@ -11695,6 +12660,10 @@
         {
             "name": "Services",
             "description": "Services"
+        },
+        {
+            "name": "Settings",
+            "description": "Settings"
         },
         {
             "name": "Study Programs",

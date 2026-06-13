@@ -20,7 +20,7 @@ class HKIController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:superadmin|admin')->except(['getHKIDataGroupedByCategory', 'getHKIChartData']);
+        $this->middleware('role:superadmin|admin')->except(['getHKIDataGroupedByCategory', 'getHKIChartData', 'getYearsOfHKIData']);
     }
 
     /**
@@ -785,6 +785,30 @@ class HKIController extends Controller
         ];
 
         return $this->successResponse($chart_data, 'HKI chart data retrieved successfully.', 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/hki/years",
+     *     summary="Get years of hki data",
+     *     description="Retrieves a list of years in which hki were conducted",
+     *     tags={"HKI"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Years data retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={"2020", "2021", "2022", "2023"}),
+     *             @OA\Property(property="message", type="string", example="Years data retrieved successfully.")
+     *         )
+     *     )
+     * )
+     */
+    public function getYearsOfHKIData()
+    {
+        $years = HKI::groupBy('tahun_permohonan')->pluck('tahun_permohonan');
+
+        return $this->successResponse($years, 'Years data retrieved successfully.', 200);
     }
 
     /**

@@ -18,7 +18,7 @@ class AuthorController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:superadmin']);
+        $this->middleware(['role:superadmin|admin']);
     }
 
     /**
@@ -536,10 +536,10 @@ class AuthorController extends Controller
 
         if (request()->has('q')) {
             $search_term = request()->input('q');
-            $query->whereAny(['name', 'sinta_id', 'nidn'], '%' . $search_term . '%');
+            $query->whereAny(['name', 'sinta_id', 'nidn'], 'like', '%' . $search_term . '%');
         }
 
-        $authors = $query->with('studyProgram')->paginate(10);
+        $authors = $query->with('studyProgram')->latest()->paginate(10);
 
         return $this->successResponse($authors, 'Authors data retrieved successfully.', 200);
     }

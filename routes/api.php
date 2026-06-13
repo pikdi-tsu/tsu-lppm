@@ -9,8 +9,10 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ResearchController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,27 +28,41 @@ Route::get('/posts/by-page/{page_slug}', [PostController::class, 'getPostsByPage
 // CATEGORIES
 Route::get('/categories/list', [CategoryController::class, 'getCategoriesList']);
 
-// RESEARCH
+// RESEARCHES
 Route::get('/researches/grouped-by-scheme', [ResearchController::class, 'getResearchesGroupedByScheme']);
 Route::get('/researches/chart-data', [ResearchController::class, 'getResearchesChartData']);
+Route::get('/researches/years', [ResearchController::class, 'getYearsOfResearchesData']);
 
 // SERVICES
 Route::get('/services/grouped-by-scheme', [ServiceController::class, 'getServicesGroupedByScheme']);
 Route::get('/services/chart-data', [ServiceController::class, 'getServicesChartData']);
+Route::get('/services/years', [ServiceController::class, 'getYearsOfServicesData']);
 
 // PUBLICATIONS
 Route::get('/publications/grouped', [PublicationController::class, 'getDataGroupedByAccreditationAndQuartile']);
 Route::get('/publications/chart-data', [PublicationController::class, 'getChartsData']);
+Route::get('/publications/years', [PublicationController::class, 'getYearsOfPublicationsData']);
 
 // HKI
 Route::get('/hki/grouped-by-category', [HKIController::class, 'getHKIDataGroupedByCategory']);
 Route::get('/hki/chart-data', [HKIController::class, 'getHKIChartData']);
+Route::get('/hki/years', [HKIController::class, 'getYearsOfHKIData']);
 
 // BOOKS
 Route::get('/books/grouped-by-category', [BookController::class, 'getBooksGroupedByCategory']);
 Route::get('/books/chart-data', [BookController::class, 'getBooksChartData']);
+Route::get('/books/years', [BookController::class, 'getYearsOfBooksData']);
+
+// STUDY PROGRAMS
+Route::get('/study-programs/list', [StudyProgramController::class, 'getStudyProgramList']);
+
+// SETTINGS
+Route::get('/settings/by-category/{category}', [SettingController::class, 'getSettingsByCategory']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    // DASHBOARD
+    Route::get('/dashboard/total-kinerja', [DashboardController::class, 'getTotalKinerja']);
+    
     // AUTH
     Route::post('/users', [UserController::class, 'register']);
     Route::get('/users', [UserController::class, 'getUserList']);
@@ -89,7 +105,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/authors/{id}', [AuthorController::class, 'getAuthorByID'])->where('id', '[0-9]+');
     Route::get('/authors', [AuthorController::class, 'getAuthors']);
     Route::get('/authors/list', [AuthorController::class, 'getAuthorList']);
-    Route::delete('/users/{id}', [AuthorController::class, 'delete'])->where('id', '[0-9]+');
+    Route::delete('/authors/{id}', [AuthorController::class, 'delete'])->where('id', '[0-9]+');
 
     // STUDY PROGRAMS
     Route::post('/study-programs', [StudyProgramController::class, 'create']);
@@ -116,7 +132,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/services/{id}', [ServiceController::class, 'getServiceByID'])->where('id', '[0-9]+');
     Route::delete('/services/{id}', [ServiceController::class, 'delete'])->where('id', '[0-9]+');
 
-    // PUBLICATION
+    // PUBLICATIONS
     Route::post('/publications/import', [PublicationController::class, 'import']);
     Route::get('/publications/export', [PublicationController::class, 'export']);
     Route::post('/publications', [PublicationController::class, 'create']);
@@ -134,7 +150,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/hki/{id}', [HKIController::class, 'getHKIDataByID'])->where('id', '[0-9]+');
     Route::delete('/hki/{id}', [HKIController::class, 'delete'])->where('id', '[0-9]+');
 
-    // BOOK
+    // BOOKS
     Route::post('/books/import', [BookController::class, 'import']);
     Route::get('/books/export', [BookController::class, 'export']);
     Route::post('/books', [BookController::class, 'create']);
@@ -142,5 +158,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/books', [BookController::class, 'getBooks']);
     Route::get('/books/{id}', [BookController::class, 'getBookByID'])->where('id', '[0-9]+');
     Route::delete('/books/{id}', [BookController::class, 'delete'])->where('id', '[0-9]+');
+
+    // SETTINGS
+    Route::post('/settings', [SettingController::class, 'create']);
+    Route::patch('/settings/{id}', [SettingController::class, 'update'])->where('id', '[0-9]+');
+    Route::get('/settings', [SettingController::class, 'getSettings']);
+    Route::get('/settings/{id}', [SettingController::class, 'getSettingByID'])->where('id', '[0-9]+');
+    Route::delete('/settings/{id}', [SettingController::class, 'delete'])->where('id', '[0-9]+');
 });
 

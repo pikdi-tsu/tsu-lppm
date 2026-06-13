@@ -1,0 +1,77 @@
+name: Deploy to DirectAdmin (Production)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  web-deploy:
+    name: Fast Deploy to DirectAdmin
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Sync Core files to DirectAdmin
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /domains/lppm.tsu.ac.id/tsu_lppm_core/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            public/**
+            vendor/**
+            node_modules/**
+            .idea/**
+            .vscode/**
+            storage/logs/*.log
+
+      - name: Sync Public files to DirectAdmin
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.3
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: public/
+          server-dir: /domains/lppm.tsu.ac.id/public_html/
+
+      - name: Execute Server Scripts via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -e
+
+            # 1. Sesuaikan path index.php di public_html agar mengarah ke lppm_core
+            cd ~/domains/lppm.tsu.ac.id/public_html
+            sed -i "s|__DIR__.'/../storage/|__DIR__.'/../lppm_core/storage/|g" index.php
+            sed -i "s|__DIR__.'/../vendor/|__DIR__.'/../lppm_core/vendor/|g" index.php
+            sed -i "s|__DIR__.'/../bootstrap/|__DIR__.'/../lppm_core/bootstrap/|g" index.php
+
+            # 2. Setup core aplikasi
+            cd ~/domains/lppm.tsu.ac.id/lppm_core
+
+            mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
+            chmod -R 775 storage bootstrap/cache
+
+            # 3. Membuat symlink storage/app/public ke public_html/storage jika belum ada
+            ln -sfn $(pwd)/storage/app/public ../public_html/storage
+
+            # 4. Install dependencies & optimasi
+            wget -O composer.phar https://getcomposer.org/download/latest-stable/composer.phar
+            php composer.phar install --no-dev --optimize-autoloader
+
+            php artisan optimize:clear
+            php artisan optimize
+            php artisan view:cache
+            php artisan migrate --force

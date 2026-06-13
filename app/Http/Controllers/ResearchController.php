@@ -48,7 +48,7 @@ class ResearchController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:superadmin|admin'])->except(['getResearchesGroupedByScheme', 'getResearchesChartData']);
+        $this->middleware(['role:superadmin|admin'])->except(['getResearchesGroupedByScheme', 'getResearchesChartData', 'getYearsOfResearchesData']);
     }
 
     /**
@@ -631,7 +631,7 @@ class ResearchController extends Controller
             $query->whereAny(['nama_ketua', 'nidn_ketua', 'judul'], 'like', "%$search_term%");
         }
 
-        $researches = $query->with('authors')->paginate(10);
+        $researches = $query->with('authors')->latest()->paginate(10);
 
         $researches->getCollection()->transform(function ($research) {
             $research->dana_disetujui = $this->currencyFormat($research->dana_disetujui);
@@ -784,7 +784,7 @@ class ResearchController extends Controller
         }
 
         $researches = $query->get();
-        $grouped_data = $researches->groupBy('nama_singkat_skema')->map(function ($group) {
+        $grouped_data = $researches->groupBy('nama_skema')->map(function ($group) {
             return [
                 'count' => $group->count(),
                 'total_funds' => $this->currencyFormat($group->sum('dana_disetujui'))
@@ -902,6 +902,30 @@ class ResearchController extends Controller
         ];
 
         return $this->successResponse($chart_data, 'Researches chart data retrieved successfully.', 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/researches/years",
+     *     summary="Get years of researches data",
+     *     description="Retrieves a list of years in which researches were conducted",
+     *     tags={"Researches"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Years data retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={"2020", "2021", "2022", "2023"}),
+     *             @OA\Property(property="message", type="string", example="Years data retrieved successfully.")
+     *         )
+     *     )
+     * )
+     */
+    public function getYearsOfResearchesData()
+    {
+        $years = Research::groupBy('thn_pelaksanaan_kegiatan')->pluck('thn_pelaksanaan_kegiatan');
+
+        return $this->successResponse($years, 'Years data retrieved successfully.', 200);
     }
 
     /**

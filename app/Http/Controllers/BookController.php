@@ -21,7 +21,7 @@ class BookController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:superadmin|admin')->except(['getBooksGroupedByCategory', 'getBooksChartData']);
+        $this->middleware('role:superadmin|admin')->except(['getBooksGroupedByCategory', 'getBooksChartData', 'getYearsOfBooksData']);
     }
 
     /**
@@ -688,7 +688,7 @@ class BookController extends Controller
         // Apply year filter if provided
         if (request()->has('year')) {
             $year = request()->input('year');
-            $books_by_program->where('books.thn_pelaksanaan_kegiatan', $year);
+            $books_by_program->where('books.tahun_terbit', $year);
         }
 
         // Complete the query
@@ -718,6 +718,30 @@ class BookController extends Controller
         ];
 
         return $this->successResponse($chart_data, 'Books chart data retrieved successfully.', 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/books/years",
+     *     summary="Get years of books data",
+     *     description="Retrieves a list of years in which books were conducted",
+     *     tags={"Books"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Years data retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={"2020", "2021", "2022", "2023"}),
+     *             @OA\Property(property="message", type="string", example="Years data retrieved successfully.")
+     *         )
+     *     )
+     * )
+     */
+    public function getYearsOfBooksData()
+    {
+        $years = Book::groupBy('tahun_terbit')->pluck('tahun_terbit');
+
+        return $this->successResponse($years, 'Years data retrieved successfully.', 200);
     }
 
     /**

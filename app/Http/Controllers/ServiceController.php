@@ -49,7 +49,7 @@ class ServiceController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:superadmin|admin'])->except(['getServicesGroupedByScheme', 'getServicesChartData']);
+        $this->middleware(['role:superadmin|admin'])->except(['getServicesGroupedByScheme', 'getServicesChartData', 'getYearsOfServicesData']);
     }
 
     /**
@@ -779,7 +779,7 @@ class ServiceController extends Controller
         }
 
         $services = $query->get();
-        $grouped_data = $services->groupBy('nama_singkat_skema')->map(function ($group) {
+        $grouped_data = $services->groupBy('nama_skema')->map(function ($group) {
             return [
                 'count' => $group->count(),
                 'total_funds' => Number::currency($group->sum('dana_disetujui'), 'IDR', 'id'),
@@ -897,6 +897,30 @@ class ServiceController extends Controller
         ];
 
         return $this->successResponse($chart_data, 'Services chart data retrieved successfully.', 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/services/years",
+     *     summary="Get years of services data",
+     *     description="Retrieves a list of years in which services were conducted",
+     *     tags={"Services"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Years data retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={"2020", "2021", "2022", "2023"}),
+     *             @OA\Property(property="message", type="string", example="Years data retrieved successfully.")
+     *         )
+     *     )
+     * )
+     */
+    public function getYearsOfServicesData()
+    {
+        $years = Service::groupBy('thn_pelaksanaan_kegiatan')->pluck('thn_pelaksanaan_kegiatan');
+
+        return $this->successResponse($years, 'Years data retrieved successfully.', 200);
     }
 
     /**
