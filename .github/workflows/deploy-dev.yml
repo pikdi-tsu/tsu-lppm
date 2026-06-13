@@ -26,6 +26,7 @@ jobs:
       - name: Execute Post-Deploy Scripts via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
+          APP_URL: ${{ secrets.DEV_APP_URL }}
           DB_HOST: ${{ secrets.DEV_DB_HOST }}
           DB_PORT: ${{ secrets.DEV_DB_PORT }}
           DB_DATABASE: ${{ secrets.DEV_DB_DATABASE }}
@@ -36,7 +37,7 @@ jobs:
           username: ${{ secrets.DEV_SSH_USERNAME }}
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           port: 22
-          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
+          envs: APP_URL,DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
           script: |
             set -e
             cd /var/www/html/tsu_lppm
@@ -55,7 +56,8 @@ jobs:
             if [ ! -f .env ]; then cp .env.example .env; fi
             touch database/database.sqlite
             
-            # Set Database Credentials otomatis via Secrets
+            # Set Config otomatis via Secrets
+            if [ -n "$APP_URL" ]; then sed -i "s|^APP_URL=.*|APP_URL=$APP_URL|" .env; fi
             if [ -n "$DB_HOST" ]; then sed -i "s|^DB_HOST=.*|DB_HOST=$DB_HOST|" .env; fi
             if [ -n "$DB_PORT" ]; then sed -i "s|^DB_PORT=.*|DB_PORT=$DB_PORT|" .env; fi
             if [ -n "$DB_DATABASE" ]; then sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|" .env; fi
