@@ -44,11 +44,18 @@ jobs:
 
       - name: Execute Server Scripts via SSH
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
+          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
           script: |
             set -e
 
@@ -63,6 +70,16 @@ jobs:
 
             mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
             chmod -R 775 storage bootstrap/cache
+            
+            if [ ! -f .env ]; then cp .env.example .env; fi
+            touch database/database.sqlite
+
+            # Set Database Credentials otomatis via Secrets
+            if [ -n "$DB_HOST" ]; then sed -i "s|^DB_HOST=.*|DB_HOST=$DB_HOST|" .env; fi
+            if [ -n "$DB_PORT" ]; then sed -i "s|^DB_PORT=.*|DB_PORT=$DB_PORT|" .env; fi
+            if [ -n "$DB_DATABASE" ]; then sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|" .env; fi
+            if [ -n "$DB_USERNAME" ]; then sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|" .env; fi
+            if [ -n "$DB_PASSWORD" ]; then sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|" .env; fi
 
             # 3. Membuat symlink storage/app/public ke public_html/storage jika belum ada
             ln -sfn $(pwd)/storage/app/public ../public_html/storage
