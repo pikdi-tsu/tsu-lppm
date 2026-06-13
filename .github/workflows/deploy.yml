@@ -45,6 +45,7 @@ jobs:
       - name: Execute Server Scripts via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
+          APP_URL: ${{ secrets.APP_URL }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
@@ -55,7 +56,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
+          envs: APP_URL,DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
           script: |
             set -e
 
@@ -74,7 +75,8 @@ jobs:
             if [ ! -f .env ]; then cp .env.example .env; fi
             touch database/database.sqlite
 
-            # Set Database Credentials otomatis via Secrets
+            # Set Config otomatis via Secrets
+            if [ -n "$APP_URL" ]; then sed -i "s|^APP_URL=.*|APP_URL=$APP_URL|" .env; fi
             if [ -n "$DB_HOST" ]; then sed -i "s|^DB_HOST=.*|DB_HOST=$DB_HOST|" .env; fi
             if [ -n "$DB_PORT" ]; then sed -i "s|^DB_PORT=.*|DB_PORT=$DB_PORT|" .env; fi
             if [ -n "$DB_DATABASE" ]; then sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|" .env; fi
