@@ -69,7 +69,8 @@ jobs:
 
             # 4. Install dependencies & optimasi
             wget -O composer.phar https://getcomposer.org/download/latest-stable/composer.phar
-            php composer.phar install --no-dev --optimize-autoloader
+            export COMPOSER_ALLOW_SUPERUSER=1
+            php composer.phar install --ignore-platform-reqs --no-dev --optimize-autoloader
 
             php artisan optimize:clear
             php artisan optimize

@@ -38,7 +38,8 @@ jobs:
             mkdir -p bootstrap/cache
 
             wget -O composer.phar https://getcomposer.org/download/latest-stable/composer.phar
-            php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
+            export COMPOSER_ALLOW_SUPERUSER=1
+            php composer.phar install --ignore-platform-reqs --no-interaction --prefer-dist --optimize-autoloader
 
             sudo chown -R www-data:www-data storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
