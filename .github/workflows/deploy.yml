@@ -70,7 +70,10 @@ jobs:
             cd ~/domains/lppm.tsu.ac.id/lppm_core
 
             mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
+            # Memastikan hak akses folder cache dan log aman SETELAH semua file tergenerate
+            chown -R www-data:www-data storage bootstrap/cache
             chmod -R 775 storage bootstrap/cache
+            chmod 600 storage/*.key 2>/dev/null || true
             
             if [ ! -f .env ]; then cp .env.example .env; fi
             touch database/database.sqlite

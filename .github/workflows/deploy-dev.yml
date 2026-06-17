@@ -98,3 +98,4 @@ jobs:
             # Memastikan hak akses folder cache dan log aman SETELAH semua file tergenerate
             sudo chown -R www-data:www-data storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
+            sudo chmod 600 storage/*.key 2>/dev/null || true
