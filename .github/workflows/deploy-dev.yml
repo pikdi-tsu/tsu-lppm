@@ -48,7 +48,7 @@ jobs:
             # Memastikan ada environment file dasar dan database sqlite fallback
             if [ ! -f .env ]; then cp .env.example .env; fi
             touch database/database.sqlite
-            
+
             # Bersihkan variabel Secrets dari karakter spasi/enter tersembunyi (CR/LF)
             APP_URL=$(echo "$APP_URL" | tr -d '\r\n ')
             DB_HOST=$(echo "$DB_HOST" | tr -d '\r\n ')
