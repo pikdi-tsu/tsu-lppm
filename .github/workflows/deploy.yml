@@ -72,14 +72,13 @@ jobs:
             cd ~/domains/lppm.tsu.ac.id/lppm_core
 
             mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
-            
+
             if [ ! -f .env ]; then cp .env.example .env; fi
             touch database/database.sqlite
 
             # Bersihkan variabel Secrets dari karakter spasi/enter tersembunyi (CR/LF)
             APP_NAME=$(echo "$APP_NAME" | tr -d '\r\n') # Spasi pada nama aplikasi diizinkan
             APP_URL=$(echo "$APP_URL" | tr -d '\r\n ')
-            FRONTEND_URL=$(echo "$FRONTEND_URL" | tr -d '\r\n ')
             DB_HOST=$(echo "$DB_HOST" | tr -d '\r\n ')
             DB_PORT=$(echo "$DB_PORT" | tr -d '\r\n ')
             DB_DATABASE=$(echo "$DB_DATABASE" | tr -d '\r\n ')
@@ -103,7 +102,6 @@ jobs:
             # Set Config otomatis via Secrets
             update_env "APP_NAME" "$APP_NAME"
             update_env "APP_URL" "$APP_URL"
-            update_env "FRONTEND_URL" "$FRONTEND_URL"
             update_env "DB_HOST" "$DB_HOST"
             update_env "DB_PORT" "$DB_PORT"
             update_env "DB_DATABASE" "$DB_DATABASE"

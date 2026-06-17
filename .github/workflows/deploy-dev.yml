@@ -28,7 +28,6 @@ jobs:
         env:
           APP_NAME: ${{ secrets.DEV_APP_NAME }}
           APP_URL: ${{ secrets.DEV_APP_URL }}
-          FRONTEND_URL: ${{ secrets.DEV_FRONTEND_URL }}
           DB_HOST: ${{ secrets.DEV_DB_HOST }}
           DB_PORT: ${{ secrets.DEV_DB_PORT }}
           DB_DATABASE: ${{ secrets.DEV_DB_DATABASE }}
@@ -54,7 +53,6 @@ jobs:
             # Bersihkan variabel Secrets dari karakter spasi/enter tersembunyi (CR/LF)
             APP_NAME=$(echo "$APP_NAME" | tr -d '\r\n') # Spasi pada nama aplikasi diizinkan
             APP_URL=$(echo "$APP_URL" | tr -d '\r\n ')
-            FRONTEND_URL=$(echo "$FRONTEND_URL" | tr -d '\r\n ')
             DB_HOST=$(echo "$DB_HOST" | tr -d '\r\n ')
             DB_PORT=$(echo "$DB_PORT" | tr -d '\r\n ')
             DB_DATABASE=$(echo "$DB_DATABASE" | tr -d '\r\n ')
@@ -78,7 +76,6 @@ jobs:
             # Set Config otomatis via Secrets
             update_env "APP_NAME" "$APP_NAME"
             update_env "APP_URL" "$APP_URL"
-            update_env "FRONTEND_URL" "$FRONTEND_URL"
             update_env "DB_HOST" "$DB_HOST"
             update_env "DB_PORT" "$DB_PORT"
             update_env "DB_DATABASE" "$DB_DATABASE"
