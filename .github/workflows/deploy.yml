@@ -47,7 +47,8 @@ jobs:
         env:
           APP_NAME: ${{ secrets.APP_NAME }}
           APP_URL: ${{ secrets.APP_URL }}
-          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+          APP_ENV: ${{ secrets.APP_ENV }}
+          APP_DEBUG: ${{ secrets.APP_DEBUG }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
@@ -58,7 +59,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          envs: APP_NAME,APP_URL,FRONTEND_URL,DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
+          envs: APP_NAME,APP_URL,APP_ENV,APP_DEBUG,DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD
           script: |
             set -e
 
@@ -79,6 +80,8 @@ jobs:
             # Bersihkan variabel Secrets dari karakter spasi/enter tersembunyi (CR/LF)
             APP_NAME=$(echo "$APP_NAME" | tr -d '\r\n') # Spasi pada nama aplikasi diizinkan
             APP_URL=$(echo "$APP_URL" | tr -d '\r\n ')
+            APP_ENV=$(echo "$APP_ENV" | tr -d '\r\n ')
+            APP_DEBUG=$(echo "$APP_DEBUG" | tr -d '\r\n ')
             DB_HOST=$(echo "$DB_HOST" | tr -d '\r\n ')
             DB_PORT=$(echo "$DB_PORT" | tr -d '\r\n ')
             DB_DATABASE=$(echo "$DB_DATABASE" | tr -d '\r\n ')
@@ -102,26 +105,30 @@ jobs:
             # Set Config otomatis via Secrets
             update_env "APP_NAME" "$APP_NAME"
             update_env "APP_URL" "$APP_URL"
+            update_env "APP_ENV" "$APP_ENV"
+            update_env "APP_DEBUG" "$APP_DEBUG"
             update_env "DB_HOST" "$DB_HOST"
             update_env "DB_PORT" "$DB_PORT"
             update_env "DB_DATABASE" "$DB_DATABASE"
             update_env "DB_USERNAME" "$DB_USERNAME"
             update_env "DB_PASSWORD" "$DB_PASSWORD"
 
-            # Generate APP_KEY jika masih kosong
-            if grep -q "^APP_KEY=$" .env; then
-                php artisan key:generate --force
-            fi
-
-            # 3. Membuat symlink storage/app/public ke public_html/storage jika belum ada
-            ln -sfn $(pwd)/storage/app/public ../public_html/storage
-
-            # 4. Install dependencies & optimasi
+            # 3. Install dependencies
             wget -O composer.phar https://getcomposer.org/download/latest-stable/composer.phar
             export COMPOSER_ALLOW_SUPERUSER=1
             php composer.phar install --ignore-platform-reqs --no-dev --optimize-autoloader
 
+            # Bersihkan cache sebelum key:generate agar tidak membaca cache lama
             php artisan optimize:clear
+
+            # Generate APP_KEY jika belum valid
+            if ! grep -q "^APP_KEY=base64:" .env; then
+                php artisan key:generate --force
+            fi
+
+            # 4. Membuat symlink storage/app/public ke public_html/storage jika belum ada
+            ln -sfn $(pwd)/storage/app/public ../public_html/storage
+
             php artisan optimize
             php artisan view:cache
             php artisan migrate --force
