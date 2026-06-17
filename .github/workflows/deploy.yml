@@ -70,10 +70,6 @@ jobs:
             cd ~/domains/lppm.tsu.ac.id/lppm_core
 
             mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
-            # Memastikan hak akses folder cache dan log aman SETELAH semua file tergenerate
-            chown -R www-data:www-data storage bootstrap/cache
-            chmod -R 775 storage bootstrap/cache
-            chmod 600 storage/*.key 2>/dev/null || true
             
             if [ ! -f .env ]; then cp .env.example .env; fi
             touch database/database.sqlite
@@ -91,12 +87,12 @@ jobs:
                 local key=$1
                 local val=$2
                 if [ -n "$val" ]; then
-                    # Escape tanda petik ganda di dalam value
                     local escaped_val=$(echo "$val" | sed 's/"/\\"/g')
-                    # Hapus baris lama
-                    sed -i "/^${key}=/d" .env
-                    # Tambahkan baris baru dengan quote
-                    echo "${key}=\"${escaped_val}\"" >> .env
+                    if grep -q "^${key}=" .env; then
+                        sed -i "s|^${key}=.*|${key}=\"${escaped_val}\"|" .env
+                    else
+                        echo "${key}=\"${escaped_val}\"" >> .env
+                    fi
                 fi
             }
 
@@ -125,3 +121,8 @@ jobs:
             php artisan optimize
             php artisan view:cache
             php artisan migrate --force
+
+            # Memastikan hak akses folder cache dan log aman SETELAH semua file tergenerate
+            # Di DirectAdmin kita gunakan 755 agar tidak diblokir oleh suPHP/lsphp
+            chmod -R 755 storage bootstrap/cache
+            chmod 600 storage/*.key 2>/dev/null || true
