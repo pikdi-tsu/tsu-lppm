@@ -62,14 +62,14 @@ jobs:
           script: |
             set -e
 
-            # 1. Sesuaikan path index.php di public_html agar mengarah ke lppm_core
+            # 1. Sesuaikan path index.php di public_html agar mengarah ke tsu_lppm_core
             cd ~/domains/lppm.tsu.ac.id/public_html
-            sed -i "s|__DIR__.'/../storage/|__DIR__.'/../lppm_core/storage/|g" index.php
-            sed -i "s|__DIR__.'/../vendor/|__DIR__.'/../lppm_core/vendor/|g" index.php
-            sed -i "s|__DIR__.'/../bootstrap/|__DIR__.'/../lppm_core/bootstrap/|g" index.php
+            sed -i "s|__DIR__.'/../storage/|__DIR__.'/../tsu_lppm_core/storage/|g" index.php
+            sed -i "s|__DIR__.'/../vendor/|__DIR__.'/../tsu_lppm_core/vendor/|g" index.php
+            sed -i "s|__DIR__.'/../bootstrap/|__DIR__.'/../tsu_lppm_core/bootstrap/|g" index.php
 
             # 2. Setup core aplikasi
-            cd ~/domains/lppm.tsu.ac.id/lppm_core
+            cd ~/domains/lppm.tsu.ac.id/tsu_lppm_core
 
             mkdir -p storage/framework/{sessions,views,cache} bootstrap/cache
 
