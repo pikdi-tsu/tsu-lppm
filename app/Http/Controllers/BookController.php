@@ -792,6 +792,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return $this->successResponse(null, 'Book deleted successfully.', 200);
+        return $this->successResponse(null, 'Book ' . $book->judul . ' deleted successfully.', 200);
     }
 }

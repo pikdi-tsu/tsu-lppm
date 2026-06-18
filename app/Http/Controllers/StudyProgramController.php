@@ -399,6 +399,6 @@ class StudyProgramController extends Controller
 
         $study_program->delete();
 
-        return $this->successResponse(null, 'Study program deleted successfully.', 200);
+        return $this->successResponse(null, 'Study program ' . $study_program->name . ' deleted successfully.', 200);
     }
 }

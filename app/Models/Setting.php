@@ -22,4 +22,9 @@ class Setting extends Model
         'link_url',
         'image_path'
     ];
+
+    public function getImagePathAttribute($value)
+    {
+        return $value ? url('storage/' . $value) : null;
+    }
 }

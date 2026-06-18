@@ -632,6 +632,6 @@ class AuthorController extends Controller
 
         $author->delete();
 
-        return $this->successResponse(null, 'Author data deleted successfully.', 200);
+        return $this->successResponse(null, 'Author ' . $author->name . ' deleted successfully.', 200);
     }
 }

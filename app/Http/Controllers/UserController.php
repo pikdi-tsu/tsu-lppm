@@ -972,12 +972,11 @@ class UserController extends Controller
 
         if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
             Storage::disk('public')->delete($user->image_path);
-            dd('deleted');
         }
 
         $user->delete();
 
-        return $this->successResponse(null, 'User successfully deleted.', 200);
+        return $this->successResponse(null, 'User ' . $user->name . ' successfully deleted.', 200);
     }
 
     /**

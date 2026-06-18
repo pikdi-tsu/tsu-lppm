@@ -859,6 +859,6 @@ class HKIController extends Controller
 
         $data->delete();
 
-        return $this->successResponse(null, 'Data deleted successfully.', 200);
+        return $this->successResponse(null, 'HKI ' . $data->judul . ' deleted successfully.', 200);
     }
 }

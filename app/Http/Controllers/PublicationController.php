@@ -447,7 +447,6 @@ class PublicationController extends Controller
             ]);
         }
 
-        $data->update($request->all());
         $data->authors()->sync($request->authors);
         $data->save();
 
@@ -905,6 +904,6 @@ class PublicationController extends Controller
 
         $data->delete();
 
-        return $this->successResponse(null, 'Publication deleted successfully.', 200);
+        return $this->successResponse(null, 'Publication ' . $data->judul . ' deleted successfully.', 200);
     }
 }
