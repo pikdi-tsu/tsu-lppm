@@ -976,6 +976,6 @@ class ResearchController extends Controller
 
         $research->delete();
 
-        return $this->successResponse(null, 'Research data deleted successfully.', 200);
+        return $this->successResponse(null, 'Research ' . $research->judul . ' deleted successfully.', 200);
     }
 }

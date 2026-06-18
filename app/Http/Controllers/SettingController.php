@@ -167,8 +167,8 @@ class SettingController extends Controller
         }
 
         if ($request->file('image')) {
-            if ($setting->image_path && Storage::disk('public')->exists($setting->image_path)) {
-                Storage::disk('public')->delete($setting->image_path);
+            if ($setting->getRawOriginal('image_path') && Storage::disk('public')->exists($setting->getRawOriginal('image_path'))) {
+                Storage::disk('public')->delete($setting->getRawOriginal('image_path'));
             }
 
             $image = $request->file('image');
@@ -182,7 +182,7 @@ class SettingController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'link_url' => $request->link_url,
-            'image_path' => $image_path ?? $setting->image_path
+            'image_path' => $image_path ?? $setting->getRawOriginal('image_path')
         ]);
 
         return $this->successResponse($setting, 'Setting data updated successfully.', 200);
@@ -361,12 +361,12 @@ class SettingController extends Controller
             return $this->errorResponse('Setting not found.', 404);
         }
 
-        if ($setting->image_path && Storage::disk('public')->exists($setting->image_path)) {
-            Storage::disk('public')->delete($setting->image_path);
+        if ($setting->getRawOriginal('image_path') && Storage::disk('public')->exists($setting->getRawOriginal('image_path'))) {
+            Storage::disk('public')->delete($setting->getRawOriginal('image_path'));
         }
 
         $setting->delete();
 
-        return $this->successResponse(null, 'Setting data deleted successfully.', 200);
+        return $this->successResponse(null, 'Setting ' . $setting->name . ' deleted successfully.', 200);
     }
 }

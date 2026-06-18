@@ -526,6 +526,6 @@ class PageController extends Controller
 
         $page->delete();
 
-        return $this->successResponse(null, 'Page data deleted successfully.', 200);
+        return $this->successResponse(null, 'Page ' . $page->title . ' deleted successfully.', 200);
     }
 }

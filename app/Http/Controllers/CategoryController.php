@@ -447,6 +447,6 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return $this->successResponse(null, 'Category data deleted successfully.', 200);
+        return $this->successResponse(null, 'Category ' . $category->name . ' deleted successfully.', 200);
     }
 }

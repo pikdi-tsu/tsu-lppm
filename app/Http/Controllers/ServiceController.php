@@ -971,6 +971,6 @@ class ServiceController extends Controller
 
         $service->delete();
 
-        return $this->successResponse(null, 'Service deleted successfully.', 200);
+        return $this->successResponse(null, 'Service ' . $service->judul . ' deleted successfully.', 200);
     }
 }

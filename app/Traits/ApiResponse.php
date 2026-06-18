@@ -49,6 +49,7 @@ trait ApiResponse
     {
         return response()->json([
             'success' => false,
+            'message' => $validator->errors()->first(),
             'errors' => $validator->errors(),
         ], $code);
     }

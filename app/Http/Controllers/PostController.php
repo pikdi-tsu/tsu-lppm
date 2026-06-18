@@ -834,7 +834,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        return $this->successResponse(null, 'Post data deleted successfully.', 200);
+        return $this->successResponse(null, 'Post ' . $post->title . ' deleted successfully.', 200);
     }
 
 }
